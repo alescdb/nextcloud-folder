@@ -23,19 +23,19 @@ const { GObject, St, GLib, Gio } = imports.gi;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Image = Gio.icon_new_for_string(Me.path + "/nextcloud.svg");
-const NextcloudPath = GLib.build_filenamev([GLib.get_home_dir(), 'Nextcloud']);
-const NextcloudUri = GLib.filename_to_uri(NextcloudPath, null);
-const file = Gio.File.new_for_uri(NextcloudUri)
 
 
 const Indicator = GObject.registerClass(
     class Indicator extends PanelMenu.Button {
         _openFolder() {
+            const path = GLib.build_filenamev([GLib.get_home_dir(), 'Nextcloud']);
+            const uri = GLib.filename_to_uri(path, null);
+            const file = Gio.File.new_for_uri(uri);
+
             if (file.query_exists(null)) {
-                Gio.AppInfo.launch_default_for_uri_async(NextcloudUri, null, null, null);
+                Gio.AppInfo.launch_default_for_uri_async(uri, null, null, null);
             } else {
-                Main.notify("Can't find : " + NextcloudPath);
+                Main.notify("Can't find : " + path);
             }
         }
 
@@ -45,7 +45,7 @@ const Indicator = GObject.registerClass(
                 reactive: true,
             });
             let icon = new St.Icon({
-                gicon: Image,
+                gicon: Gio.icon_new_for_string(Me.path + "/nextcloud.svg"),
                 style_class: 'nextcloud-icon'
             });
             button.set_child(icon);
