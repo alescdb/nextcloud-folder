@@ -11,4 +11,4 @@ install:
 
 .PHONY: clean
 clean:
-	rm *.zip
+	rm -f *.zip

@@ -4,6 +4,9 @@ A very simple and lightweigth GNOME extension to open [Nextcloud](https://nextcl
 Note that this extension assumes your [Nextcloud](https://nextcloud.com/) folder path in :<br/>
 `/$HOME/Nexcloud`
 
+![](media/screenshot.png)
+
+
 ##
 ### Installation
 
