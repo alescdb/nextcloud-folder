@@ -1,0 +1,9 @@
+{
+  "name": "Nextcloud Folder",
+  "description": "Simple extension to open nextcloud folder",
+  "uuid": "nextcloud-folder@cosinus.org",
+  "version": 1,
+  "shell-version": [
+    "42"
+  ]
+}
