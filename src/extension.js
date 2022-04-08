@@ -28,19 +28,20 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Indicator = GObject.registerClass(
     class Indicator extends PanelMenu.Button {
         _openFolder() {
-            const path = GLib.build_filenamev([GLib.get_home_dir(), 'Nextcloud']);
-            const uri = GLib.filename_to_uri(path, null);
-            const file = Gio.File.new_for_uri(uri);
-
-            if (file.query_exists(null)) {
-                Gio.AppInfo.launch_default_for_uri_async(uri, null, null, null);
+            if (this._file.query_exists(null)) {
+                Gio.AppInfo.launch_default_for_uri_async(this._uri, null, null, null);
             } else {
-                Main.notify("Can't find : " + path);
+                Main.notify("Can't find : " + this._path);
             }
         }
 
         _init() {
             super._init(0.0, _('Nextcloud Folder'));
+
+            this._path = GLib.build_filenamev([GLib.get_home_dir(), 'Nextcloud']);
+            this._uri = GLib.filename_to_uri(this._path, null);
+            this._file = Gio.File.new_for_uri(this._uri);
+
             let button = new St.Bin({
                 reactive: true,
             });
@@ -51,7 +52,9 @@ const Indicator = GObject.registerClass(
             button.set_child(icon);
             this.add_child(button);
 
-            button.connect('button-press-event', this._openFolder);
+            button.connect('button-press-event', () => {
+                this._openFolder()
+            });
         }
     });
 
