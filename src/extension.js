@@ -23,31 +23,55 @@ const { GObject, St, GLib, Gio } = imports.gi;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const ExtensionUtils = imports.misc.extensionUtils;
 
 const Indicator = GObject.registerClass(
     class Indicator extends PanelMenu.Button {
         _openFolder() {
-            if (this._file.query_exists(null)) {
-                Gio.AppInfo.launch_default_for_uri_async(this._uri, null, null, null);
+            const path = this._getPath();
+            const uri = GLib.filename_to_uri(path, null);
+            const file = Gio.File.new_for_uri(uri);
+
+            if (file.query_exists(null)) {
+                Gio.AppInfo.launch_default_for_uri_async(uri, null, null, null);
             } else {
-                Main.notify("Can't find : " + this._path);
+                Main.notify("Can't find : " + path);
             }
+        }
+
+        _getIcon() {
+            if (this._settings.get_boolean('dark')) {
+                return Gio.icon_new_for_string(Me.path + "/nextcloud-dark.svg");
+            }
+            return Gio.icon_new_for_string(Me.path + "/nextcloud-light.svg");
+        }
+
+        _getPath() {
+            if (this._settings.get_boolean('custom-path')) {
+                const path = this._settings.get_string('path');
+                if (path) {
+                    return path;
+                }
+            }
+            return GLib.build_filenamev([GLib.get_home_dir(), 'Nextcloud']);
         }
 
         _init() {
             super._init(0.0, _('Nextcloud Folder'));
+            this._settings = ExtensionUtils.getSettings();
 
-            this._path = GLib.build_filenamev([GLib.get_home_dir(), 'Nextcloud']);
-            this._uri = GLib.filename_to_uri(this._path, null);
-            this._file = Gio.File.new_for_uri(this._uri);
-
-            let button = new St.Bin({
+            const button = new St.Bin({
                 reactive: true,
             });
-            let icon = new St.Icon({
-                gicon: Gio.icon_new_for_string(Me.path + "/nextcloud.svg"),
+            const icon = new St.Icon({
+                gicon: this._getIcon(),
                 style_class: 'nextcloud-icon'
             });
+
+            this._settings.connect('changed::dark', () => {
+                icon.gicon = this._getIcon();
+            });
+
             button.set_child(icon);
             this.add_child(button);
 

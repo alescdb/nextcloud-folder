@@ -1,11 +1,10 @@
 # Nextcloud Folder
 
 A very simple and lightweigth GNOME extension to open [Nextcloud](https://nextcloud.com/) folder in one click.<br/>
-Note that this extension assumes your [Nextcloud](https://nextcloud.com/) folder path is :<br/>
-`$HOME/Nextcloud`
 
-![](media/screenshot.png)
+![](media/screenshot_01.png)
 
+![](media/screenshot_02.png)
 
 ##
 ### Installation
@@ -15,3 +14,8 @@ git clone https://github.com/alescdb/nextcloud-folder
 cd nextcloud-folder
 make install
 ```
+
+##
+### Icons
+
+Nextcloud icons are from [Papirus Icon Theme](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme)
