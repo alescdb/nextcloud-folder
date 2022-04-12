@@ -24,7 +24,6 @@ const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
-
 const Indicator = GObject.registerClass(
     class Indicator extends PanelMenu.Button {
         _openFolder() {

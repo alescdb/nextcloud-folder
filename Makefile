@@ -6,8 +6,10 @@ package: clean
 
 .PHONY: install
 install:
+	glib-compile-schemas schemas/
 	mkdir -p $(HOME)/.local/share/gnome-shell/extensions/$(EXTENSION_NAME)
-	cp -a src/* $(HOME)/.local/share/gnome-shell/extensions/$(EXTENSION_NAME)
+	cp -av src/* $(HOME)/.local/share/gnome-shell/extensions/$(EXTENSION_NAME)
+	cp -av schemas $(HOME)/.local/share/gnome-shell/extensions/$(EXTENSION_NAME)/
 
 .PHONY: clean
 clean:
