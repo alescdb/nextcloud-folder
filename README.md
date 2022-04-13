@@ -16,6 +16,6 @@ make install
 ```
 
 ##
-### Icons
+### Icons
 
 Nextcloud icons are from [Papirus Icon Theme](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme)
