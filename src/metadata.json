@@ -2,7 +2,7 @@
   "name": "Nextcloud Folder",
   "description": "Simple extension to open nextcloud folder",
   "uuid": "nextcloud-folder@cosinus.org",
-  "version": 3,
+  "version": 4,
   "url": "https://github.com/alescdb/nextcloud-folder",
   "settings-schema": "org.gnome.shell.extensions.nextcloud-folder",
   "shell-version": [
