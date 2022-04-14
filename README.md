@@ -9,6 +9,9 @@ A very simple and lightweigth GNOME extension to open [Nextcloud](https://nextcl
 ##
 ### Installation
 
+Install from https://extensions.gnome.org/extension/4983/nextcloud-folder/
+
+Or build it from sources :
 ```
 git clone https://github.com/alescdb/nextcloud-folder
 cd nextcloud-folder
