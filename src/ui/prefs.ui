@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="nextcloud-folder@cosinus.org">
+  <object class="AdwPreferencesPage" id="prefs">
+    <property name="title" translatable="yes">Nextcloud Folder</property>
+    <child>
+      <object class="AdwClamp">
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="margin-top">12</property>
+            <property name="margin-bottom">10</property>
+            <property name="spacing">20</property>
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title" translatable="yes">Icon</property>
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title" translatable="yes">Use dark icon</property>
+                    <property name="activatable-widget">dark</property>
+                    <child>
+                      <object class="GtkSwitch" id="dark">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title" translatable="yes">Folder</property>
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title" translatable="yes">Use custom folder path</property>
+                    <property name="activatable-widget">custom-path</property>
+                    <child>
+                      <object class="GtkSwitch" id="custom-path">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwActionRow" id="group-path">
+                    <property name="title" translatable="yes">Folder path</property>
+                    <property name="activatable-widget">button-path</property>
+                    <child>
+                      <object class="GtkButton" id="button-path">
+                        <property name="icon-name">document-open-symbolic</property>
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
