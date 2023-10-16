@@ -1,7 +1,7 @@
 <schemalist gettext-domain="AppIndicatorExtension">
   <schema id="org.gnome.shell.extensions.nextcloud-folder" path="/org/gnome/shell/extensions/nextcloud-folder/">
     <key name="dark" type="b">
-      <default>false</default>
+      <default>true</default>
       <summary>Dark Icon</summary>
     </key>
     <key name="custom-path" type="b">

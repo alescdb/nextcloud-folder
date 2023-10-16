@@ -1,32 +1,47 @@
 /* extension.js
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * SPDX-License-Identifier: GPL-2.0-or-later
+ * MIT License
+ * 
+ * Copyright (c) 2022 Alex
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
-/* exported init */
+import Gio from 'gi://Gio';
+import GObject from 'gi://GObject';
+import St from 'gi://St';
+import GLib from 'gi://GLib';
 
-const { GObject, St, GLib, Gio } = imports.gi;
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import { Button } from 'resource:///org/gnome/shell/ui/panelMenu.js';
+import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 
-const Main = imports.ui.main;
-const PanelMenu = imports.ui.panelMenu;
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const ExtensionUtils = imports.misc.extensionUtils;
-
-const Indicator = GObject.registerClass(
-    class Indicator extends PanelMenu.Button {
+const NextcloudFolderIndicator = GObject.registerClass(
+    {
+        _TimeoutId: null,
+        _FirstTimeoutId: null,
+        _updateProcess_sourceId: null,
+        _updateProcess_stream: null,
+        _updateProcess_pid: null,
+        _updateList: [],
+    },
+    class NextcloudFolderIndicator extends Button {
         _openFolder() {
             const path = this._getPath();
             const uri = GLib.filename_to_uri(path, null);
@@ -41,9 +56,9 @@ const Indicator = GObject.registerClass(
 
         _getIcon() {
             if (this._settings.get_boolean('dark')) {
-                return Gio.icon_new_for_string(Me.path + "/nextcloud-dark.svg");
+                return Gio.icon_new_for_string(this._extension.path + "/nextcloud-dark.svg");
             }
-            return Gio.icon_new_for_string(Me.path + "/nextcloud-light.svg");
+            return Gio.icon_new_for_string(this._extension.path + "/nextcloud-light.svg");
         }
 
         _getPath() {
@@ -56,9 +71,10 @@ const Indicator = GObject.registerClass(
             return GLib.build_filenamev([GLib.get_home_dir(), 'Nextcloud']);
         }
 
-        _init() {
+        _init(extension) {
             super._init(0.0, _('Nextcloud Folder'));
-            this._settings = ExtensionUtils.getSettings();
+            this._extension = extension;
+            this._settings = extension.getSettings();
 
             const button = new St.Bin({
                 reactive: true,
@@ -81,13 +97,14 @@ const Indicator = GObject.registerClass(
         }
     });
 
-class Extension {
-    constructor(uuid) {
-        this._uuid = uuid;
+export default class NextcloudFolderExtension extends Extension {
+    constructor(metadata) {
+        super(metadata);
+        this._uuid = metadata.uuid;
     }
 
     enable() {
-        this._indicator = new Indicator();
+        this._indicator = new NextcloudFolderIndicator(this);
         Main.panel.addToStatusArea(this._uuid, this._indicator);
     }
 
@@ -97,6 +114,6 @@ class Extension {
     }
 }
 
-function init(meta) {
-    return new Extension(meta.uuid);
-}
+// function init(meta) {
+//     return new NextcloudFolderExtension(meta.uuid);
+// }
