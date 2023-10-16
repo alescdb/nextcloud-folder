@@ -113,7 +113,3 @@ export default class NextcloudFolderExtension extends Extension {
         this._indicator = null;
     }
 }
-
-// function init(meta) {
-//     return new NextcloudFolderExtension(meta.uuid);
-// }
